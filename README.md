@@ -9,6 +9,7 @@ aws configure //check your email for your access key id and value
 - Download this Repo
 
 # Install ganache-cli and truffle
+- open a new terminal on visual studio code
 - npm install -g ganache-cli truffle
   - install ganache-cli and truffle; run the ganache local testnet @8545 
 - run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts: (note: I have to run ganache-cli twice to get the private keys; the first time it only shows 5 public keys)
@@ -26,6 +27,8 @@ Listening on 127.0.0.1:8545
   - each time ganache-cli restarts the accounts have to be re-imported 
 
 # Smart Contract
+- open a new terminal on visual studio code 
+- cd to 
 - create a proper folder
 - run truffle init
 - check truffle-config.js for the local ganache-cli testnet on 8545
