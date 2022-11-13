@@ -4,7 +4,8 @@
 - [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
 - Configure AWS Cli
 ```
-aws configure //check your email for your access key id and value
+//check your email for your access key id and value
+aws configure 
 ```
 - Download this Repo
 
@@ -13,7 +14,7 @@ aws configure //check your email for your access key id and value
 - cd to nft-marketpalce-main if it is not there
 - npm install -g ganache-cli truffle
   - install ganache-cli and truffle; run the ganache local testnet @8545 
-- run the following cmd to start the local testnet and save the auto-generated 10 eth-accounts into the file ethaccounts.json with the public/private keys; each account has 100 ethers 
+- run the following cmd to start the local testnet and save the auto-generated 10 eth-accounts into the file ethaccounts.json with the public/private keys; each account has 100 test ethers 
 ```
 ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json 
 ```
@@ -27,14 +28,14 @@ Listening on 127.0.0.1:8545
 ```
 - install MetaMask browser extension
 - record the acct password
-- import ganache-cli created accts' (via private keys)
+- import ganache-cli created accts' (via private keys) if you want to see the ethers in MetaMask wallet
   - ensure "testnet" configuration is enabled for the MetaMask setting
-  - each time ganache-cli restarts the accounts have to be re-imported 
+  - each time ganache-cli restarts it will create new accounts so the new accts have to be re-imported into your MetaMask if you want to have them in your wallet 
 
 # Smart Contract
 - open a new terminal on visual studio code 
 - cd to ShareTowinContract
-//- run truffle init
+- run truffle init
 - check truffle-config.js for the local ganache-cli testnet on 8545
 ```
 networks: {
@@ -44,16 +45,21 @@ networks: {
       network_id: "*",       // Any network (default: none)
     },
 ```
-- install openzeppelin
+- install openzeppelin - the open source smart contract repo
 ```
 npm install @openzeppelin/contracts
 ```
 - deploy smart contract
+  - there are two smart contracts in the contract folder
+    - Migrations.sol is a default smart contract from truffle
+    - AssetToken.sol is the smart contract for the project
 ```
+// this cmd is to start the truffle console and connect to the network named "development" defined in truffle-config.js; once the console is ready run "compile" and "migrate" to compile and deploy the smart contracts to the "development" ethereum network
 truffle console --network development
 > compile
 > migrate
 ```
+//console will print out the details of deployed smart contracts
 - "AssetToken" 
   - contract addrss: 0x60B107B51025f3Ad432D7f9DF34F88c67e4C67C3 
   - account: 0x2178C08137D89064a8feeF624461F7525399ac5a
@@ -69,8 +75,10 @@ truffle console --network development
 - copy AssetToken.json from build\contracts to ShareToWinApi
 - run 
 ```
-source envExport.sh //update the env variable
-npx nodemon --delay 1000ms index.js //start the express server and watch any changes
+//update the env variable
+source envExport.sh 
+//start the express server and watch any changes
+npx nodemon --delay 1000ms index.js 
 ```
 
 # ShareToWinWeb
@@ -78,8 +86,8 @@ npx nodemon --delay 1000ms index.js //start the express server and watch any cha
 - cd to ShareTowinWeb
 - might need:
   - npm install react-scripts
-  - might need change the port if 3000 is in use
-  - need create dynamo db if there is no such dynamodb table
+  - might need change the port if port 3000 is in use
+  - need create dynamo db if there is no such dynamodb table - in our case there is a Dynamodb table created already; but here is the cmd to create the dynamo table if required
   ```
   aws dynamodb create-table --table-name ShareToWin --attribute-definitions AttributeName=AssetID,AttributeType=N --key-schema AttributeName=AssetID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
   {
