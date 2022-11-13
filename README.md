@@ -10,6 +10,7 @@ aws configure //check your email for your access key id and value
 
 # Install ganache-cli and truffle
 - open a new terminal on visual studio code
+- cd to nft-marketpalce-main if it is not there
 - npm install -g ganache-cli truffle
   - install ganache-cli and truffle; run the ganache local testnet @8545 
 - run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts: (note: I have to run ganache-cli twice to get the private keys; the first time it only shows 5 public keys)
@@ -28,8 +29,7 @@ Listening on 127.0.0.1:8545
 
 # Smart Contract
 - open a new terminal on visual studio code 
-- cd to 
-- create a proper folder
+- cd to ShareTowinContract
 - run truffle init
 - check truffle-config.js for the local ganache-cli testnet on 8545
 ```
@@ -57,6 +57,8 @@ truffle console --network development
   - contract address: 0xB7E8f4AD4Bd7eEce1Ba6F680d1a12D250B2b1469
   - account: 0x2178C08137D89064a8feeF624461F7525399ac5a  
 # ShareToWinApi
+- open a new terminal on visual studio code 
+- cd to ShareTowinRestApi
 - might need:
   - npm install express
 - update CONTRACTADDRESS field in envExport.sh 
@@ -68,6 +70,8 @@ npx nodemon --delay 1000ms index.js //start the express server and watch any cha
 ```
 
 # ShareToWinWeb
+- open a new terminal on visual studio code 
+- cd to ShareTowinWeb
 - might need:
   - npm install react-scripts
   - might need change the port if 3000 is in use
