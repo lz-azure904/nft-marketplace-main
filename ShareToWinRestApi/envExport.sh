@@ -1,0 +1,4 @@
+export AMB_HTTP_ENDPOINT="[Enter AMB Node endpoint]"
+export GANACHE_ENDPOINT="http://localhost:8545"
+export APPNETWORK="Ganache"
+export CONTRACTADDRESS="0x1D2E4559b9B5e1868E9A287Fd974E7551d1D154E"
