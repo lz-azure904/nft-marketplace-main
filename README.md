@@ -1,84 +1,116 @@
-# Full Stack NFT Marketplace Application
-
-
-This repo contains the demo code from the NFT marketplace application discussed on the blogs:
-
-- https://aws.amazon.com/blogs/database/part-1-develop-a-full-stack-serverless-nft-application-with-amazon-managed-blockchain/
-
-- https://aws.amazon.com/blogs/database/part-2-develop-a-full-stack-serverless-nft-application-with-amazon-managed-blockchain/ 
-
-## Prerequisites
-
-1. [Node.js](https://nodejs.org)
-2. An active AWS account
-3. AWS CLI (https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
-
-## Setup
-
-Clone the repository and run the following commands to setup the code ($ is not part of the command):
-
-```console
-$ npm install -g ganache-cli truffle
-$ cd ShareToWinContract
-$ npm install
-$ ../cd ShareToWinRestApi
-$ npm install
-$ ../cd ShareToWinWeb
-$ npm install
-$ aws dynamodb create-table --table-name ShareToWin --attribute-definitions AttributeName=AssetID,AttributeType=N --key-schema AttributeName=AssetID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 
+# Prerequisties
+- Visual Code or Cloud9
+- Install [Remote Access Extension for Visual Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+- [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+- Configure AWS Cli
 ```
-
-## Run
-
-Open four terminal windows. 
-
-1. On the first terminal window make sure you are in the ShareToWinContract folder. Run the following command to start Ganache development server by running the ganache-cli
-
-```console
-npx ganache-cli  --acctKeys ../ShareToWinRestApi/ethaccounts.json
+aws configure //check your email for your access key id and value
 ```
-2. On the second terminal window make sure you are in the ShareToWinContract folder. Run the following command to start truffle console.
+- Download this Repo
 
-```console
+# Install ganache-cli and truffle
+- npm install -g ganache-cli truffle
+  - install ganache-cli and truffle; run the ganache local testnet @8545 
+- run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts: (note: I have to run ganache-cli twice to get the private keys; the first time it only shows 5 public keys)
+```
+HD Wallet
+==================
+Mnemonic:      poverty put today valve idle accident blast easily frown dismiss wear obey
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+Listening on 127.0.0.1:8545
+```
+- install MetaMask browser extension
+- record the acct password
+- import ganache-cli created accts' (via private keys)
+  - ensure "testnet" configuration is enabled for the MetaMask setting
+  - each time ganache-cli restarts the accounts have to be re-imported 
+
+# Smart Contract
+- create a proper folder
+- run truffle init
+- check truffle-config.js for the local ganache-cli testnet on 8545
+```
+networks: {
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
+```
+- install openzeppelin
+```
+npm install @openzeppelin/contracts
+```
+- deploy smart contract
+```
 truffle console --network development
+> compile
+> migrate
 ```
-Once connected to truffle console, issue the migrate command. 
-
-```console
-migrate
+- "AssetToken" 
+  - contract addrss: 0x60B107B51025f3Ad432D7f9DF34F88c67e4C67C3 
+  - account: 0x2178C08137D89064a8feeF624461F7525399ac5a
+- "Migration"
+  - contract address: 0xB7E8f4AD4Bd7eEce1Ba6F680d1a12D250B2b1469
+  - account: 0x2178C08137D89064a8feeF624461F7525399ac5a  
+# ShareToWinApi
+- might need:
+  - npm install express
+- update CONTRACTADDRESS field in envExport.sh 
+- copy AssetToken.json from build\contracts to 
+- run 
 ```
-
-The migrate command will deploy the smart contract on ganache development network and display the deployed contract address 
-
-        Deploying 'AssetToken'
-   ----------------------
-    transaction hash:    0xd20be4f8f7126f40ab66d11efac49ec260db251375bd11e729dd658373ecebe8
-    Blocks: 0            Seconds: 0
-    contract address:    0x0b10d5619d36aeF3ab9eD509196D7937F842a882
-    block number:        3
-    block timestamp:     1644449968
-    account:             0x3d46282D895a9e4Ba8Cb081fbcd6fA2Dd2844e62
-    balance:             99.91223912
-    gas used:            4096677 (0x3e82a5)
-    gas price:           20 gwei
-    value sent:          0 ETH
-    total cost:          0.08193354 ETH
-
-3. On the third terminal window make sure you are in the ShareToWinRestApi folder. Copy the contract address that is displayed on the second terminal when you ran the migrate truffle command into the envExport.sh file and run the following commands
-
-```console
-source envExport.sh
-npx nodemon --delay 1000ms index.js
+source envExport.sh //update the env variable
+npx nodemon --delay 1000ms index.js //start the express server and watch any changes
 ```
 
-This will start the express web server and listen on port 4080
+# ShareToWinWeb
+- might need:
+  - npm install react-scripts
+  - might need change the port if 3000 is in use
+  - need create dynmao db
+  ```
+  aws dynamodb create-table --table-name ShareToWin --attribute-definitions AttributeName=AssetID,AttributeType=N --key-schema AttributeName=AssetID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+  {
+    "TableDescription": {
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "AssetID",
+                "AttributeType": "N"
+            }
+        ],
+        "TableName": "ShareToWin",
+        "KeySchema": [
+            {
+                "AttributeName": "AssetID",
+                "KeyType": "HASH"
+            }
+        ],
+        "TableStatus": "CREATING",
+        "CreationDateTime": "2022-11-12T13:04:18.348000-06:00",
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0,
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        },
+        "TableSizeBytes": 0,
+        "ItemCount": 0,
+        "TableArn": "arn:aws:dynamodb:us-east-1:020614850103:table/ShareToWin",
+        "TableId": "a2383266-6eed-413f-bd76-868926c6de0e"
+    }
+  }
+  ```
+  - start the react front end
+  ```
+  npm start/npm run start
+  ```
+  
+  # UI
+  Buyer 1 view
+  ![image](https://user-images.githubusercontent.com/73182196/201503856-030faec4-3917-4d08-bf3c-64c3cb518d81.png)
+  Buyer 2 view
+  ![image](https://user-images.githubusercontent.com/73182196/201503886-6b6f2ff3-b7b5-4ae0-bb6a-79464819e5da.png)
+  Admin view
+  ![image](https://user-images.githubusercontent.com/73182196/201503772-386acdbe-e303-4d87-937b-ab41e55e40d1.png)
 
-4. On the fourth window make sure you are in the ShareToWinWeb folder. Start the react web front end by entering the command
 
-```console
-npm run start
-```
-
-## License Summary
-
-This sample code is made available under a modified MIT license. See the LICENSE file.
