@@ -13,7 +13,11 @@ aws configure //check your email for your access key id and value
 - cd to nft-marketpalce-main if it is not there
 - npm install -g ganache-cli truffle
   - install ganache-cli and truffle; run the ganache local testnet @8545 
-- run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts:
+- run the following cmd to start the local testnet and save the auto-generated 10 eth-accounts into the file ethaccounts.json with the public/private keys; each account has 100 ethers 
+```
+ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json 
+```
+- Below is showing the HD Wallet you will see after running gananche-cli cmd; Mnmonic is the scretes for the wallet.
 ```
 HD Wallet
 ==================
@@ -30,7 +34,7 @@ Listening on 127.0.0.1:8545
 # Smart Contract
 - open a new terminal on visual studio code 
 - cd to ShareTowinContract
-- run truffle init
+//- run truffle init
 - check truffle-config.js for the local ganache-cli testnet on 8545
 ```
 networks: {
@@ -61,8 +65,8 @@ truffle console --network development
 - cd to ShareTowinRestApi
 - might need:
   - npm install express
-- update CONTRACTADDRESS field in envExport.sh 
-- copy AssetToken.json from build\contracts to 
+- update CONTRACTADDRESS field with the previous step's "AssetToken" contract address in envExport.sh 
+- copy AssetToken.json from build\contracts to ShareToWinApi
 - run 
 ```
 source envExport.sh //update the env variable
@@ -75,7 +79,7 @@ npx nodemon --delay 1000ms index.js //start the express server and watch any cha
 - might need:
   - npm install react-scripts
   - might need change the port if 3000 is in use
-  - need create dynmao db
+  - need create dynamo db if there is no such dynamodb table
   ```
   aws dynamodb create-table --table-name ShareToWin --attribute-definitions AttributeName=AssetID,AttributeType=N --key-schema AttributeName=AssetID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
   {
