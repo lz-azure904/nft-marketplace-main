@@ -71,7 +71,7 @@ truffle console --network development
 - cd to ShareTowinRestApi
 - might need:
   - npm install express
-- update CONTRACTADDRESS field with the previous step's "AssetToken" contract address in envExport.sh 
+- update CONTRACTADDRESS field with the previous step's "AssetToken" contract address which will be different from what is shown above in envExport.sh 
 - copy AssetToken.json from build\contracts to ShareToWinApi
 - run 
 ```
