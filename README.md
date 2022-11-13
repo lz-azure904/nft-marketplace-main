@@ -13,7 +13,7 @@ aws configure //check your email for your access key id and value
 - cd to nft-marketpalce-main if it is not there
 - npm install -g ganache-cli truffle
   - install ganache-cli and truffle; run the ganache local testnet @8545 
-- run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts: (note: I have to run ganache-cli twice to get the private keys; the first time it only shows 5 public keys)
+- run ganache-cli --acctKeys .\ShareToWinRestApi\ethaccounts.json (this is to run the local testnet) to display the accounts:
 ```
 HD Wallet
 ==================
