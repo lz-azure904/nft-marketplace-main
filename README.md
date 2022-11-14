@@ -121,7 +121,7 @@ npx nodemon --delay 1000ms index.js
   ```
   - start the react front end
   ```
-  npm start/npm run start
+  npm start or npm run start
   ```
   
   # UI
